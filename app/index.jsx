@@ -1,100 +1,27 @@
-import {Image, Pressable, StyleSheet, Text, View} from "react-native";
-import {Footer} from "./Components/Footer";
-import {Timer} from "./Components/Timer";
-import {Options} from "./Components/Options";
-import {IconPlay, IconPause} from "./Components/Icons";
-import {useRef, useState} from "react";
-import {StartStopButton} from "./Components/StartStopButton";
-
-const pomodoro = [
-    {
-        id: "focus",
-        name: "Foco",
-        time: 25,
-        img: require('../assets/images/pomodoro.png'),
-    },
-    {
-        id: "short",
-        name: "Pausa Curta",
-        time: 5,
-        img: require('../assets/images/short.png'),
-    },
-    {
-        id: "long",
-        name: "Pausa Longa",
-        time: 15,
-        img: require('../assets/images/long.png'),
-    }
-]
+import {Image, Text, View} from "react-native";
+import {StartStopButton} from "../components/StartStopButton";
+import {Footer} from "../components/Footer";
 
 export default function Index() {
-
-    const [selectedTime, setSelectedTime] = useState(pomodoro[0]);
-    const [timerRunnig, setTimerRunnig] = useState(false);
-    const [second, setSecond] = useState(pomodoro[0].time);
-
-    const timerRef = useRef(null);
-
-    const clear = () => {
-        if (timerRef.current != null) {
-            clearInterval(timerRef.current)
-            timerRef.current = null
-            setTimerRunnig(false)
-        }
-    }
-
-    const toggleTimerType = (newTimerType) => {
-        setSelectedTime(newTimerType);
-        setSecond(newTimerType.time);
-        clear()
-    }
-
-    const toggleTimer = () => {
-        if (timerRef.current) {
-            clear()
-            return
-        }
-
-        setTimerRunnig(true)
-
-        const id = setInterval(() => {
-            setSecond(oldState => {
-                if (oldState === 0) {
-                    clear()
-                    return selectedTime.time
-                }
-                return oldState - 1
-            })
-        }, 1000)
-        timerRef.current = id
-    }
-
     return (
         <View style={styles.container}>
-            <Image source={selectedTime.img}/>
-            <View style={styles.container_actions}>
-                <View style={styles.container_actions_buttons}>
-                    {pomodoro.map(p => (
-                        <Options
-                            key={p.id}
-                            active={selectedTime.id === p.id}
-                            onPress={() => toggleTimerType(p)}
-                            display={p.name}
-                        />
-                    ))}
-                </View>
-                <Timer
-                    currentTime={second}
-                />
-                <StartStopButton onPress={toggleTimer} title={timerRunnig ? 'Pausar' : 'Começar'}
-                                 icon={timerRunnig ? <IconPause/> : <IconPlay/>}/>
+            <Image source={require('../assets/images/logo.png')}/>
+            <View style={styles.container_inner}>
+                <Text style={styles.title}>
+                    Otimize sua{'\n'}produtividade,{'\n'}
+                    <Text style={styles.title_bold}>
+                        mergulhe no que{'\n'}importa
+                    </Text>
+                </Text>
+                <Image source={require('../assets/images/home.png')}/>
+                <StartStopButton title="Quero iniciar!"/>
             </View>
             <Footer/>
         </View>
-    );
+    )
 }
 
-const styles = StyleSheet.create({
+const styles = {
     container: {
         flex: 1,
         justifyContent: "center",
@@ -103,19 +30,18 @@ const styles = StyleSheet.create({
         gap: 40,
     },
 
-    container_actions: {
-        backgroundColor: "#14448080",
-        width: "80%",
-        borderRadius: 32,
-        padding: 24,
-        borderWidth: 1,
-        borderColor: "#144480",
-        gap: 32,
+    container_inner: {
+        gap: 16,
     },
 
-    container_actions_buttons: {
-        flexDirection: "row",
-        justifyContent: "space-between",
-        width: "100%",
+    title: {
+        color: '#FFFFFF',
+        fontSize: 26,
+        textAlign: 'center',
+        marginBottom: 20,
     },
-})
+
+    title_bold: {
+        fontWeight: 'bold',
+    },
+}
