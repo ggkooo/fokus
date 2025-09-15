@@ -5,9 +5,20 @@ export default function Index() {
         <View style={styles.container}>
             <Image source={require('../assets/images/pomodoro.png')}/>
             <View style={styles.container_actions}>
+                <View style={styles.container_actions_buttons}>
+                    <Pressable style={styles.container_actions_buttons_button_active}>
+                        <Text style={styles.container_actions_buttons_button_text}>Foco</Text>
+                    </Pressable>
+                    <Pressable style={styles.container_actions_buttons_button}>
+                        <Text style={styles.container_actions_buttons_button_text}>Pausa Curta</Text>
+                    </Pressable>
+                    <Pressable style={styles.container_actions_buttons_button}>
+                        <Text style={styles.container_actions_buttons_button_text}>Pausa Longa</Text>
+                    </Pressable>
+                </View>
                 <Text style={styles.container_actions_text}>25:00</Text>
-                <Pressable>
-                    <Text>Comecar</Text>
+                <Pressable style={styles.container_actions_button}>
+                    <Text style={styles.container_actions_button_text}>Comecar</Text>
                 </Pressable>
             </View>
             <View style={styles.footer}>
@@ -27,6 +38,27 @@ const styles = StyleSheet.create({
         gap: 40,
     },
 
+    container_actions_buttons: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        width: "100%",
+    },
+
+    container_actions_buttons_button: {
+        padding: 8,
+    },
+
+    container_actions_buttons_button_active: {
+        backgroundColor: "#144480",
+        padding: 8,
+        borderRadius: 8,
+    },
+
+    container_actions_buttons_button_text: {
+        color: "#fff",
+        fontSize: 13,
+    },
+
     container_actions: {
         backgroundColor: "#14448080",
         width: "80%",
@@ -34,6 +66,7 @@ const styles = StyleSheet.create({
         padding: 24,
         borderWidth: 1,
         borderColor: "#144480",
+        gap: 32,
     },
 
     container_actions_text: {
@@ -41,6 +74,18 @@ const styles = StyleSheet.create({
         textAlign: "center",
         fontSize: 54,
         fontWeight: "bold",
+    },
+
+    container_actions_button: {
+        backgroundColor: "#B872FF",
+        borderRadius: 32,
+    },
+
+    container_actions_button_text: {
+        color: "#000",
+        fontSize: 18,
+        textAlign: "center",
+        padding: 8,
     },
 
     footer: {
