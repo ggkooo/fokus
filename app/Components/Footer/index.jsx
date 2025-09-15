@@ -10,6 +10,11 @@ export const Footer = () => {
 }
 
 const styles = StyleSheet.create({
+    footer: {
+        position: "absolute",
+        bottom: 8,
+    },
+
     footer_text: {
         color: "#686868",
         textAlign: "center",
