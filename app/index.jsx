@@ -1,30 +1,55 @@
 import {Image, Pressable, StyleSheet, Text, View} from "react-native";
+import {Footer} from "./Components/Footer";
+import {Timer} from "./Components/Timer";
+import {Options} from "./Components/Options";
+import {useState} from "react";
+import {StartStopButton} from "./Components/StartStopButton";
+
+const pomodoro = [
+    {
+        id: "focus",
+        name: "Foco",
+        time: 25,
+        img: require('../assets/images/pomodoro.png'),
+    },
+    {
+        id: "short",
+        name: "Pausa Curta",
+        time: 5,
+        img: require('../assets/images/short.png'),
+    },
+    {
+        id: "long",
+        name: "Pausa Longa",
+        time: 15,
+        img: require('../assets/images/long.png'),
+    }
+]
 
 export default function Index() {
+
+    const [selectedTime, setSelectedTime] = useState(pomodoro[0]);
+
     return (
         <View style={styles.container}>
-            <Image source={require('../assets/images/pomodoro.png')}/>
+            <Image source={selectedTime.img}/>
             <View style={styles.container_actions}>
                 <View style={styles.container_actions_buttons}>
-                    <Pressable style={styles.container_actions_buttons_button_active}>
-                        <Text style={styles.container_actions_buttons_button_text}>Foco</Text>
-                    </Pressable>
-                    <Pressable style={styles.container_actions_buttons_button}>
-                        <Text style={styles.container_actions_buttons_button_text}>Pausa Curta</Text>
-                    </Pressable>
-                    <Pressable style={styles.container_actions_buttons_button}>
-                        <Text style={styles.container_actions_buttons_button_text}>Pausa Longa</Text>
-                    </Pressable>
+                    {pomodoro.map(p => (
+                        <Options
+                            key={ p.id }
+                            active={ selectedTime.id === p.id }
+                            onPress={ () => setSelectedTime(p) }
+                            display={ p.name }
+                        />
+                    ))}
                 </View>
-                <Text style={styles.container_actions_text}>25:00</Text>
-                <Pressable style={styles.container_actions_button}>
-                    <Text style={styles.container_actions_button_text}>Comecar</Text>
-                </Pressable>
+                <Timer
+                    currentTime={selectedTime.time}
+                />
+                <StartStopButton/>
             </View>
-            <View style={styles.footer}>
-                <Text style={styles.footer_text}>Projeto desenvolvidor por </Text>
-                <Text style={styles.footer_text_active}>Giordano Bruno Biasi Berwig</Text>
-            </View>
+            <Footer/>
         </View>
     );
 }
@@ -38,27 +63,6 @@ const styles = StyleSheet.create({
         gap: 40,
     },
 
-    container_actions_buttons: {
-        flexDirection: "row",
-        justifyContent: "space-between",
-        width: "100%",
-    },
-
-    container_actions_buttons_button: {
-        padding: 8,
-    },
-
-    container_actions_buttons_button_active: {
-        backgroundColor: "#144480",
-        padding: 8,
-        borderRadius: 8,
-    },
-
-    container_actions_buttons_button_text: {
-        color: "#fff",
-        fontSize: 13,
-    },
-
     container_actions: {
         backgroundColor: "#14448080",
         width: "80%",
@@ -69,38 +73,9 @@ const styles = StyleSheet.create({
         gap: 32,
     },
 
-    container_actions_text: {
-        color: "#fff",
-        textAlign: "center",
-        fontSize: 54,
-        fontWeight: "bold",
-    },
-
-    container_actions_button: {
-        backgroundColor: "#B872FF",
-        borderRadius: 32,
-    },
-
-    container_actions_button_text: {
-        color: "#000",
-        fontSize: 18,
-        textAlign: "center",
-        padding: 8,
-    },
-
-    footer: {
-        position: "absolute",
-        bottom: 32,
-    },
-
-    footer_text: {
-        color: "#686868",
-        textAlign: "center",
-    },
-
-    footer_text_active: {
-        color: "#686868",
-        textAlign: "center",
-        fontWeight: "bold",
+    container_actions_buttons: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        width: "100%",
     },
 })
