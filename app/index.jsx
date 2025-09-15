@@ -2,7 +2,8 @@ import {Image, Pressable, StyleSheet, Text, View} from "react-native";
 import {Footer} from "./Components/Footer";
 import {Timer} from "./Components/Timer";
 import {Options} from "./Components/Options";
-import {useState} from "react";
+import {IconPlay, IconPause} from "./Components/Icons";
+import {useRef, useState} from "react";
 import {StartStopButton} from "./Components/StartStopButton";
 
 const pomodoro = [
@@ -29,6 +30,44 @@ const pomodoro = [
 export default function Index() {
 
     const [selectedTime, setSelectedTime] = useState(pomodoro[0]);
+    const [timerRunnig, setTimerRunnig] = useState(false);
+    const [second, setSecond] = useState(pomodoro[0].time);
+
+    const timerRef = useRef(null);
+
+    const clear = () => {
+        if (timerRef.current != null) {
+            clearInterval(timerRef.current)
+            timerRef.current = null
+            setTimerRunnig(false)
+        }
+    }
+
+    const toggleTimerType = (newTimerType) => {
+        setSelectedTime(newTimerType);
+        setSecond(newTimerType.time);
+        clear()
+    }
+
+    const toggleTimer = () => {
+        if (timerRef.current) {
+            clear()
+            return
+        }
+
+        setTimerRunnig(true)
+
+        const id = setInterval(() => {
+            setSecond(oldState => {
+                if (oldState === 0) {
+                    clear()
+                    return selectedTime.time
+                }
+                return oldState - 1
+            })
+        }, 1000)
+        timerRef.current = id
+    }
 
     return (
         <View style={styles.container}>
@@ -37,17 +76,18 @@ export default function Index() {
                 <View style={styles.container_actions_buttons}>
                     {pomodoro.map(p => (
                         <Options
-                            key={ p.id }
-                            active={ selectedTime.id === p.id }
-                            onPress={ () => setSelectedTime(p) }
-                            display={ p.name }
+                            key={p.id}
+                            active={selectedTime.id === p.id}
+                            onPress={() => toggleTimerType(p)}
+                            display={p.name}
                         />
                     ))}
                 </View>
                 <Timer
-                    currentTime={selectedTime.time}
+                    currentTime={second}
                 />
-                <StartStopButton/>
+                <StartStopButton onPress={toggleTimer} title={timerRunnig ? 'Pausar' : 'Começar'}
+                                 icon={timerRunnig ? <IconPause/> : <IconPlay/>}/>
             </View>
             <Footer/>
         </View>
