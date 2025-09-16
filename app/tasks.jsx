@@ -1,19 +1,37 @@
-import {StyleSheet, Text, View} from "react-native";
-import { router } from "expo-router";
+import {FlatList, StyleSheet, Text, View} from "react-native";
+import {router} from "expo-router";
 import {TaskItem} from "../components/TaskItem";
 import {FokusButton} from "../components/FokusButton";
 import {IconPlus} from "../components/Icons";
+import useTaskContext from "../components/context/useTaskContext";
 
 export default function Tasks() {
+
+    const {tasks} = useTaskContext()
+
     return (
         <View style={styles.container}>
             <View style={styles.wrapper}>
                 <Text style={styles.title}>Lista de Tarefas:</Text>
                 <View style={styles.container_inner}>
-                    <TaskItem text={"Aprender React Native"}/>
-                    <TaskItem completed text={"Aprender React"}/>
+                    <FlatList
+                        data={tasks}
+                        keyExtractor={(item) => item.id.toString()}
+                        renderItem={({item}) => <TaskItem text={item.description} completed={item.completed}/>}
+                        ItemSeparatorComponent={() => <View style={{height: 8}}/>}
+                        ListEmptyComponent={() =>
+                            <Text style={{color: "#FFF", textAlign: "center"}}>
+                                Nenhuma tarefa encontrada.
+                            </Text>}
+                        ListFooterComponent={
+                            <View style={{marginTop: 16}}>
+                                <FokusButton title={"Adicionar nova tarefa"}
+                                             icon={<IconPlus outline/>}
+                                             outline
+                                             onPress={() => router.navigate('/add-task')}/>
+                            </View>}
+                    />
                 </View>
-                <FokusButton title={"Adicionar nova tarefa"} icon={<IconPlus outline/>} outline onPress={() => router.navigate('/add-task')}/>
             </View>
         </View>
     )
@@ -38,6 +56,7 @@ const styles = StyleSheet.create({
     },
 
     container_inner: {
-        gap: 8
+        gap: 8,
+        height: "85%"
     },
 })
