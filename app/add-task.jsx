@@ -1,16 +1,36 @@
 import {
-    StyleSheet,
+    Keyboard,
+    KeyboardAvoidingView,
+    Platform,
     Pressable,
+    StyleSheet,
     Text,
     TextInput,
-    View,
     TouchableWithoutFeedback,
-    Platform,
-    KeyboardAvoidingView, Keyboard
+    View
 } from "react-native";
 import {IconSave} from "../components/Icons";
+import useTaskContext from "../components/context/useTaskContext";
+import {useState} from "react";
+import {router} from "expo-router";
 
 export default function AddTaks() {
+
+    const [description, setDescription] = useState();
+
+    const {addTask} = useTaskContext();
+
+    const submitTask = () => {
+        if (!description) {
+            return
+        }
+        addTask(description);
+        setDescription('');
+        // @ts-ignore
+        Keyboard.dismiss();
+        router.navigate('/tasks')
+    }
+
     return (
         <TouchableWithoutFeedback onPress={() => {
             // @ts-ignore
@@ -28,8 +48,10 @@ export default function AddTaks() {
                         style={styles.input}
                         numberOfLines={10}
                         multiline={true}
+                        value={description}
+                        onChangeText={setDescription}
                     />
-                    <Pressable style={styles.save_button}>
+                    <Pressable style={styles.save_button} onPress={submitTask}>
                         <IconSave/>
                         <Text>
                             Salvar
