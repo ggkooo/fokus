@@ -1,4 +1,5 @@
 import {StyleSheet, Text, View} from "react-native";
+import { router } from "expo-router";
 import {TaskItem} from "../components/TaskItem";
 import {FokusButton} from "../components/FokusButton";
 import {IconPlus} from "../components/Icons";
@@ -12,7 +13,7 @@ export default function Tasks() {
                     <TaskItem text={"Aprender React Native"}/>
                     <TaskItem completed text={"Aprender React"}/>
                 </View>
-                <FokusButton title={"Adicionar nova tarefa"} icon={<IconPlus outline/>} outline/>
+                <FokusButton title={"Adicionar nova tarefa"} icon={<IconPlus outline/>} outline onPress={() => router.navigate('/add-task')}/>
             </View>
         </View>
     )
