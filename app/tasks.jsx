@@ -7,7 +7,7 @@ import useTaskContext from "../components/context/useTaskContext";
 
 export default function Tasks() {
 
-    const {tasks} = useTaskContext()
+    const {tasks, deleteTask, toggleTaskCompleted} = useTaskContext()
 
     return (
         <View style={styles.container}>
@@ -17,19 +17,34 @@ export default function Tasks() {
                     <FlatList
                         data={tasks}
                         keyExtractor={(item) => item.id.toString()}
-                        renderItem={({item}) => <TaskItem text={item.description} completed={item.completed}/>}
-                        ItemSeparatorComponent={() => <View style={{height: 8}}/>}
+                        renderItem={({item}) =>
+                            <TaskItem
+                                text={item.description}
+                                completed={item.completed}
+                                onPressDelete={() => deleteTask(item.id)}
+                                onToggleComplete={() => toggleTaskCompleted(item.id)}
+                            />
+                        }
+                        ItemSeparatorComponent={() =>
+                            <View
+                                style={{height: 8}}
+                            />
+                        }
                         ListEmptyComponent={() =>
                             <Text style={{color: "#FFF", textAlign: "center"}}>
                                 Nenhuma tarefa encontrada.
-                            </Text>}
+                            </Text>
+                        }
                         ListFooterComponent={
                             <View style={{marginTop: 16}}>
-                                <FokusButton title={"Adicionar nova tarefa"}
-                                             icon={<IconPlus outline/>}
-                                             outline
-                                             onPress={() => router.navigate('/add-task')}/>
-                            </View>}
+                                <FokusButton
+                                    title={"Adicionar nova tarefa"}
+                                    icon={<IconPlus outline/>}
+                                    outline
+                                    onPress={() => router.navigate('/add-task')}
+                                />
+                            </View>
+                        }
                     />
                 </View>
             </View>
