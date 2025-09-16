@@ -23,6 +23,7 @@ export default function Tasks() {
                                 completed={item.completed}
                                 onPressDelete={() => deleteTask(item.id)}
                                 onToggleComplete={() => toggleTaskCompleted(item.id)}
+                                onPressEdit={() => router.navigate(`/edit-task/${item.id}`)}
                             />
                         }
                         ItemSeparatorComponent={() =>
