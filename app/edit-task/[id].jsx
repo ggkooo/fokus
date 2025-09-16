@@ -2,30 +2,41 @@ import {
     Keyboard,
     KeyboardAvoidingView,
     Platform,
-    Pressable,
-    StyleSheet,
+    Pressable, StyleSheet,
     Text,
     TextInput,
     TouchableWithoutFeedback,
     View
 } from "react-native";
-import {IconSave} from "../components/Icons";
-import useTaskContext from "../components/context/useTaskContext";
-import {useState} from "react";
-import {router} from "expo-router";
+import {router, useLocalSearchParams} from "expo-router";
+import {IconSave} from "../../components/Icons";
+import {useEffect, useState} from "react";
+import useTaskContext from "../../components/context/useTaskContext";
 
-export default function AddTaks() {
+export default function Id() {
+
+    const {id} = useLocalSearchParams()
 
     const [description, setDescription] = useState();
 
-    const {addTask} = useTaskContext();
+    const {tasks, updateTask} = useTaskContext();
+
+    useEffect(() => {
+        if (id && tasks && tasks.length > 0) {
+            const task = tasks.find(t => String(t.id) === String(id));
+            if (task) {
+                setDescription(task.description);
+            }
+        }
+    }, [id, tasks])
 
     const submitTask = () => {
         if (!description) {
             return
         }
-        addTask(description);
-        setDescription('');
+        if (id) {
+            updateTask(Number(id), description);
+        }
         // @ts-ignore
         Keyboard.dismiss();
         router.navigate('/tasks')
@@ -38,7 +49,7 @@ export default function AddTaks() {
         }}>
             <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
                 <Text style={styles.text}>
-                    Adicionar uma tarefa:
+                    Editar tarefa:
                 </Text>
                 <View style={styles.container_inner}>
                     <Text style={styles.label}>

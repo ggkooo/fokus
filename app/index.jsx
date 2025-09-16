@@ -1,5 +1,5 @@
 import {Image, SafeAreaView, Text, View} from "react-native";
-import {StartStopButton} from "../components/StartStopButton";
+import {FokusButton} from "../components/FokusButton";
 import {Footer} from "../components/Footer";
 import {router} from "expo-router";
 
@@ -15,7 +15,7 @@ export default function Index() {
                     </Text>
                 </Text>
                 <Image source={require('../assets/images/home.png')}/>
-                <StartStopButton title="Quero iniciar!" onPress={() => router.replace('/pomodoro')}/>
+                <FokusButton title="Quero iniciar!" onPress={() => router.replace('/pomodoro')}/>
             </View>
             <Footer/>
         </SafeAreaView>
