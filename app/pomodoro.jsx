@@ -4,7 +4,7 @@ import {Timer} from "../components/Timer";
 import {Options} from "../components/Options";
 import {IconPlay, IconPause} from "../components/Icons";
 import {useRef, useState} from "react";
-import {StartStopButton} from "../components/StartStopButton";
+import {FokusButton} from "../components/FokusButton";
 
 const pomodoro = [
     {
@@ -86,7 +86,7 @@ export default function Pomodoro() {
                 <Timer
                     currentTime={second}
                 />
-                <StartStopButton onPress={toggleTimer} title={timerRunnig ? 'Pausar' : 'Começar'}
+                <FokusButton onPress={toggleTimer} title={timerRunnig ? 'Pausar' : 'Começar'}
                                  icon={timerRunnig ? <IconPause/> : <IconPlay/>}/>
             </View>
             <Footer/>

@@ -1,6 +1,6 @@
 import {StyleSheet, Text, View} from "react-native";
 import {TaskItem} from "../components/TaskItem";
-import {StartStopButton} from "../components/StartStopButton";
+import {FokusButton} from "../components/FokusButton";
 import {IconPlus} from "../components/Icons";
 
 export default function Tasks() {
@@ -12,7 +12,7 @@ export default function Tasks() {
                     <TaskItem text={"Aprender React Native"}/>
                     <TaskItem completed text={"Aprender React"}/>
                 </View>
-                <StartStopButton title={"Adicionar nova tarefa"} icon={<IconPlus outline/>}/>
+                <FokusButton title={"Adicionar nova tarefa"} icon={<IconPlus outline/>} outline/>
             </View>
         </View>
     )
