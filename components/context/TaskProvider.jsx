@@ -69,8 +69,19 @@ export function TasksProvider({children}) {
         })
     }
 
+    const updateTask = (id, newDescription) => {
+        setTasks(oldState => {
+            return oldState.map(task => {
+                if (task.id === id) {
+                    return { ...task, description: newDescription };
+                }
+                return task;
+            });
+        });
+    }
+
     return (
-        <TaskContext.Provider value={{tasks, addTask, toggleTaskCompleted, deleteTask}}>
+        <TaskContext.Provider value={{tasks, addTask, toggleTaskCompleted, deleteTask, updateTask}}>
             {children}
         </TaskContext.Provider>
     )
